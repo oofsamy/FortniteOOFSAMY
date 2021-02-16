@@ -1,5 +1,5 @@
 @echo off
 cls
-title oofsamy is a big qt
+title oofsamy lobby bot
 py bot_fortnite.py
 cmd /k
