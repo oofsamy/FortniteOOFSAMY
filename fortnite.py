@@ -22,7 +22,7 @@ def checkPlatformCorrect():
             return platform
         else:
             return fortnitepy.Platform.WINDOWS
-    print(platform)
+    print(platform + " has been selected on local client https://localhost:8080")
 
 def get_device_auth_details():
     if os.path.isfile(filename):
