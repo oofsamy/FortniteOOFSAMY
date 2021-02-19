@@ -1,5 +1,5 @@
 @echo off
 cls
 title oofsamy lobby bot
-py bot_fortnite.py
+py fortnite.py
 cmd /k

@@ -1,5 +1,7 @@
 from functools import partial
 import fortnitepy
+import discord
+from discord.ext import commands
 import BenBotAsync
 import requests
 import json
@@ -14,15 +16,23 @@ filename = 'device_auths.json'
 discord_bot_token = 'DISCORD BOT TOKEN'
 description = 'My discord + fortnite bot!'
 platform = input("Platform to start bot on: WINDOWS, PLAYSTATION, SWITCH, XBOX, MOBILE")
+discordPrefix = input("What do you want your Discord bot prefix to be: ")
 
 
 def checkPlatformCorrect():
-    for x in ["WINDOWS", "PLAYSTATION", "PLAYSTATION", "SWITCH", "XBOX", "MOBILE"]:
+    for x in ["WINDOWS", "PLAYSTATION", "PLAYSTATION", "SWITCH", "XBOX", "MOBILE: "]:
         if platform == x:
-            return platform
+            return fortnitepy.Platform[platform]
         else:
             return fortnitepy.Platform.WINDOWS
-    print(platform + " has been selected on local client https://localhost:8080")
+    print(platform + " has been selected on local client")
+
+def store_device_auth_details(email, details):
+    existing = get_device_auth_details()
+    existing[email] = details
+
+    with open(filename, 'w') as fp:
+        json.dump(existing, fp)
 
 def get_device_auth_details():
     if os.path.isfile(filename):
@@ -44,3 +54,33 @@ fortnite_bot = fortnite_commands.Bot(
     status="oofsamy lobby bot",
     platform=checkPlatformCorrect()
 )
+
+intents = discord.Intents.default()
+intents.members = True
+
+bot = commands.Bot(command_prefix=discordPrefix, description="A fortnitepy bot with discord integration made by oofsamy#2714", intents=intents)
+
+
+@fortnite_bot.event
+async def event_ready():
+    print('Fortnite bot ready')
+    await bot.start(discord_bot_token)
+
+@fortnite_bot.event
+async def event_device_auth_generate(details, email):
+    store_device_auth_details(email, details)
+
+@fortnite_bot.event
+async def event_before_close():
+    await discord_bot.close()
+
+@bot.event
+async def on_ready():
+    print('Discord bot ready')
+
+@bot.command
+async def test(ctx, arg):
+    await ctx.send("Test Command Found")
+    await fortnite_bot.party.me.send("Test Command Found")
+
+fortnite_bot.run()
