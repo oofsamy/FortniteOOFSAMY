@@ -22,6 +22,7 @@ def checkPlatformCorrect():
             return platform
         else:
             return fortnitepy.Platform.WINDOWS
+    print(platform)
 
 def get_device_auth_details():
     if os.path.isfile(filename):
