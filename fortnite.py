@@ -72,7 +72,7 @@ async def event_device_auth_generate(details, email):
 
 @fortnite_bot.event
 async def event_before_close():
-    await discord_bot.close()
+    await bot.close()
 
 @bot.event
 async def on_ready():
