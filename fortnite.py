@@ -78,7 +78,7 @@ async def event_before_close():
 async def on_ready():
     print('Discord bot ready')
 
-@bot.command
+@bot.command()
 async def test(ctx, arg):
     await ctx.send("Test Command Found")
     await fortnite_bot.party.me.send("Test Command Found")
