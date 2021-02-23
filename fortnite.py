@@ -39,7 +39,6 @@ def checkPrefixCorrect():
     elif platform == "":
         return "$"
 
-
 def store_device_auth_details(email, details):
     existing = get_device_auth_details()
     existing[email] = details
@@ -87,6 +86,10 @@ async def event_device_auth_generate(details, email):
 async def event_before_close():
     await bot.close()
 
+@fortnite_bot.event
+async def event_party_invite(invitiation):
+    await invitiation.accept()
+
 @bot.event
 async def on_ready():
     print('Discord bot ready')
@@ -115,5 +118,26 @@ async def skin(ctx, arg):
         await ctx.send(embed=embed)
     except:
         await ctx.send("Cosmetic couldn't be found!")
+
+@bot.command()
+async def emote(ctx):
+    cont = ctx.message.content[6:len(ctx.message.content)]
+    try:
+        cosmetic = await BenBotAsync.get_cosmetic(
+            lang="en",
+            searchLang="en",
+            matchMethod="contains",
+            name=cont,
+            backendType="AthenaDance"
+        )
+        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        embed=discord.Embed(title="Skin set to " + cosmetic.name)
+        embed.set_thumbnail(url=imageFortnite(cosmetic.id))
+        nameofbot = fortnite_bot.user.display_name
+        embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
+        await ctx.send(embed=embed)
+    except:
+        await ctx.send("Cosmetic couldn't be found!")
+
 
 fortnite_bot.run()
