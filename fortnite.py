@@ -34,9 +34,9 @@ def checkPlatformCorrect():
     print(platform + " has been selected on local client")
 
 def checkPrefixCorrect():
-    if platform == None:
+    if discordPrefix == None:
         return "$"
-    elif platform == "":
+    elif discordPrefix == "":
         return "$"
 
 def store_device_auth_details(email, details):
@@ -121,7 +121,7 @@ async def skin(ctx, arg):
 
 @bot.command()
 async def emote(ctx):
-    cont = ctx.message.content[6:len(ctx.message.content)]
+    cont = ctx.message.content[7:len(ctx.message.content)]
     try:
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -131,10 +131,52 @@ async def emote(ctx):
             backendType="AthenaDance"
         )
         await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
-        embed=discord.Embed(title="Skin set to " + cosmetic.name)
+        embed=discord.Embed(title="Emote set to " + cosmetic.name)
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
         nameofbot = fortnite_bot.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
+        await ctx.send(embed=embed)
+    except:
+        await ctx.send("Cosmetic couldn't be found!")
+
+@bot.command()
+async def backpack(ctx):
+    cont = ctx.message.content[10:len(ctx.message.content)]
+    try:
+        cosmetic = await BenBotAsync.get_cosmetic(
+            lang="en",
+            searchLang="en",
+            matchMethod="contains",
+            name=cont,
+            backendType="AthenaBackpack"
+        )
+        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        embed=discord.Embed(title="Backpack set to " + cosmetic.name)
+        embed.set_thumbnail(url=imageFortnite(cosmetic.id))
+        nameofbot = fortnite_bot.user.display_name
+        embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
+        await ctx.send(embed=embed)
+    except:
+        await ctx.send("Cosmetic couldn't be found!")
+
+
+@bot.command()
+async def pickaxe(ctx):
+    cont = ctx.message.content[9:len(ctx.message.content)]
+    try:
+        cosmetic = await BenBotAsync.get_cosmetic(
+            lang="en",
+            searchLang="en",
+            matchMethod="contains",
+            name=cont,
+            backendType="AthenaPickaxe"
+        )
+        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        embed=discord.Embed(title="Pickaxe set to " + cosmetic.name + "\n Make sure to do (prefix)emote Point It Out \n to see the pickaxe")
+        embed.set_thumbnail(url=imageFortnite(cosmetic.id))
+        nameofbot = fortnite_bot.user.display_name
+        embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
+        embed.set_footer(text="Make sure to do $emote Point It Out to see the pickaxe")
         await ctx.send(embed=embed)
     except:
         await ctx.send("Cosmetic couldn't be found!")
