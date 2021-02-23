@@ -39,8 +39,6 @@ def checkPrefixCorrect():
     elif platform == "":
         return "$"
 
-async def imageFortnite(cosmetic):
-    url = " https://fortnite-api.com/v2/cosmetics/br/"
 
 def store_device_auth_details(email, details):
     existing = get_device_auth_details()
