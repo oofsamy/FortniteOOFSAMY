@@ -15,17 +15,32 @@ password = 'EPIC GAMES PASSWORD'
 filename = 'device_auths.json'
 discord_bot_token = 'DISCORD BOT TOKEN'
 description = 'My discord + fortnite bot!'
-platform = input("Platform to start bot on: WINDOWS, PLAYSTATION, SWITCH, XBOX, MOBILE")
+platform = input("Platform to start bot on: WINDOWS, PLAYSTATION, SWITCH, XBOX, MOBILE: ")
 discordPrefix = input("What do you want your Discord bot prefix to be: ")
 
+def imageFortnite(cosmeticId):
+    url = "https://fortnite-api.com/v2/cosmetics/br/"+cosmeticId
+    r = requests.get(url)
+    data = r.text
+    data = json.loads(data)
+    return data["data"]["images"]["icon"]
 
 def checkPlatformCorrect():
-    for x in ["WINDOWS", "PLAYSTATION", "PLAYSTATION", "SWITCH", "XBOX", "MOBILE: "]:
+    for x in ["WINDOWS", "PLAYSTATION", "PLAYSTATION", "SWITCH", "XBOX", "MOBILE"]:
         if platform == x:
             return fortnitepy.Platform[platform]
         else:
             return fortnitepy.Platform.WINDOWS
     print(platform + " has been selected on local client")
+
+def checkPrefixCorrect():
+    if platform == None:
+        return "$"
+    elif platform == "":
+        return "$"
+
+async def imageFortnite(cosmetic):
+    url = " https://fortnite-api.com/v2/cosmetics/br/"
 
 def store_device_auth_details(email, details):
     existing = get_device_auth_details()
@@ -81,6 +96,26 @@ async def on_ready():
 @bot.command()
 async def test(ctx, arg):
     await ctx.send("Test Command Found")
-    await fortnite_bot.party.me.send("Test Command Found")
+    await fortnite_bot.party.send("Test Command Found")
+
+@bot.command()
+async def skin(ctx, arg):
+    cont = ctx.message.content[6:len(ctx.message.content)]
+    try: 
+        cosmetic = await BenBotAsync.get_cosmetic(
+            lang="en",
+            searchLang="en",
+            matchMethod="contains",
+            name=cont,
+            backendType="AthenaCharacter"
+        )
+        await fortnite_bot.party.me.set_outfit(asset=cosmetic.id)
+        embed=discord.Embed(title="Skin set to " + cosmetic.name)
+        embed.set_thumbnail(url=imageFortnite(cosmetic.id))
+        nameofbot = fortnite_bot.user.display_name
+        embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
+        await ctx.send(embed=embed)
+    except:
+        await ctx.send("Cosmetic couldn't be found!")
 
 fortnite_bot.run()
