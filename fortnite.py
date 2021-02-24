@@ -281,4 +281,22 @@ async def ready(ctx):
         await fortnite_bot.party.me.set_ready(fortnitepy.ReadyState.READY)
     #fortnitepy.ReadyState
 
+@bot.command()
+async def setStatus(ctx, arg):
+    if arg.lower() == "fortnite":
+        await fortnite_bot.set_presence(ctx.message.content[20:])
+        await ctx.send("Status on fortnite is set to " + ctx.message.content[20:])
+    elif arg.lower() == "discord":
+        game = discord.Game(ctx.message.content[19:])
+        await bot.change_presence(activity=game)
+        await ctx.send("Status on discord is set to " + ctx.message.content[19:])
+    elif arg.lower() == "both":
+        await ctx.send("Status on both fortnite and discord are set to "+ctx.message.content[11:])
+        game = discord.Game(ctx.message.content[16:])
+        await fortnite_bot.set_presence(ctx.message.content[16:])
+        await bot.change_presence(activity=game)
+        await ctx.send("Status on both fortnite and discord are set to "+ctx.message.content[16:])
+    else:
+        await ctx.send("Please specify what platform you want to change the status on \nExample: ``$setStatus fortnite`` \nAvailable parameters are ``fortnite`` ``discord`` ``both``")
+
 fortnite_bot.run()
