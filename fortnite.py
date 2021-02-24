@@ -72,6 +72,14 @@ intents.members = True
 
 bot = commands.Bot(command_prefix=discordPrefix, description="A fortnitepy bot with discord integration made by oofsamy#2714", intents=intents)
 
+async def userByName(name):
+    print(name)
+    iD = await fortnite_bot.fetch_user_by_display_name(name)
+    if iD != None:
+        print(iD)
+        whatTo = iD.id
+        return whatTo
+
 
 @fortnite_bot.event
 async def event_ready():
@@ -181,5 +189,19 @@ async def pickaxe(ctx):
     except:
         await ctx.send("Cosmetic couldn't be found!")
 
+@bot.command()
+async def promote(ctx, arg):
+    playerId = await userByName(ctx.message.content[9:])
+    player = fortnite_bot.party.get_member(playerId)
+    await player.promote()
+
+
+@bot.command()
+async def ready(ctx):
+    if fortnite_bot.is_ready == True:
+        await ctx.send("I am already ready <3")
+    else:
+        await fortnite_bot.party.me.set_ready(fortnitepy.ReadyState.READY)
+    #fortnitepy.ReadyState
 
 fortnite_bot.run()
