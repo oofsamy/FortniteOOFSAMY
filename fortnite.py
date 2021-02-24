@@ -276,7 +276,7 @@ async def promote(ctx, arg):
 @bot.command()
 async def ready(ctx):
     if fortnite_bot.is_ready == True:
-        await ctx.send("I am already ready <3")
+        await ctx.send(fortnite_bot.party.me.display_name + " is already ready")
     else:
         await fortnite_bot.party.me.set_ready(fortnitepy.ReadyState.READY)
     #fortnitepy.ReadyState
