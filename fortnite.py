@@ -299,4 +299,12 @@ async def setStatus(ctx, arg):
     else:
         await ctx.send("Please specify what platform you want to change the status on \nExample: ``$setStatus fortnite`` \nAvailable parameters are ``fortnite`` ``discord`` ``both``")
 
+@bot.command()
+async def addFriend(ctx, arg):
+    try:      
+        player = await fortnite_bot.fetch_user_by_display_name(ctx.message.content[11:])
+        await player.add()
+    except:
+        await ctx.send("Couldn't add friend, try again later!")
+
 fortnite_bot.run()
