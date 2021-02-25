@@ -307,4 +307,28 @@ async def addFriend(ctx, arg):
     except:
         await ctx.send("Couldn't add friend, try again later!")
 
+
+@bot.command()
+async def leave(ctx):
+    global playerList
+    global sendingString
+    sendingString = ""
+    playerList = []
+    amount = 1
+    for x in fortnite_bot.party.members:
+        if x.display_name == fortnite_bot.party.me.display_name:
+            print("own bot found")
+        else:
+            playerList.append(x.display_name)
+    for x in playerList:
+        if amount == len(playerList):
+            sendingString = sendingString + x
+        else:
+            amount += 1 
+            sendingString = sendingString + x +", "
+    await fortnite_bot.party.me.leave()
+    embed=discord.Embed(title="has left the party containing:", description=sendingString)
+    embed.set_author(name=fortnite_bot.party.me.display_name)
+    await ctx.send(embed=embed)
+
 fortnite_bot.run()
