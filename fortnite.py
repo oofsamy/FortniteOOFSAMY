@@ -331,4 +331,51 @@ async def leave(ctx):
     embed.set_author(name=fortnite_bot.party.me.display_name)
     await ctx.send(embed=embed)
 
+@bot.command()
+async def copy(ctx):
+    print(ctx.message.content[6:])
+    user = fortnite_bot.party.me
+    member = fortnite_bot.party.get_member(await userByName(ctx.message.content[6:])) #6
+    if user != None:
+        if member.emote == None:
+            await fortnite_bot.party.me.edit_and_keep(
+                partial(
+                    fortnitepy.ClientPartyMember.set_outfit,
+                    asset=member.outfit,
+                    variants=member.outfit_variants
+                ),
+                partial(
+                    fortnitepy.ClientPartyMember.set_backpack,
+                    asset=member.backpack,
+                    variants=member.backpack_variants
+                ),
+                partial(
+                    fortnitepy.ClientPartyMember.set_pickaxe,
+                    asset=member.pickaxe,
+                    variants=member.pickaxe_variants
+                )
+            )
+        else:
+            await fortnite_bot.party.me.edit_and_keep(
+                partial(
+                    fortnitepy.ClientPartyMember.set_outfit,
+                    asset=member.outfit,
+                    variants=member.outfit_variants
+                ),
+                partial(
+                    fortnitepy.ClientPartyMember.set_backpack,
+                    asset=member.backpack,
+                    variants=member.backpack_variants
+                ),
+                partial(
+                    fortnitepy.ClientPartyMember.set_pickaxe,
+                    asset=member.pickaxe,
+                    variants=member.pickaxe_variants
+                ),
+                partial(
+                    fortnitepy.ClientPartyMember.set_emote,
+                    asset=member.emote
+                )
+        )
+
 fortnite_bot.run()
