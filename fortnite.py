@@ -378,4 +378,10 @@ async def copy(ctx):
                 )
         )
 
+@bot.command()
+async def repeat(ctx):
+    partyy = fortnite_bot.party
+    await partyy.send("\n"+ctx.message.content[8:]+"\n-"+ctx.author.display_name)
+
+
 fortnite_bot.run()
