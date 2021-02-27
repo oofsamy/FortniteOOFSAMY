@@ -384,5 +384,9 @@ async def repeat(ctx):
     partyy = client.party
     await partyy.send("\n"+ctx.message.content[8:]+"\n-"+ctx.author.display_name)
 
+@bot.command()
+async def stopEmote(ctx):
+    await client.party.me.clear_emote()
+
 
 client.run()
