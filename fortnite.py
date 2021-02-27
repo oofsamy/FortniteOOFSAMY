@@ -53,7 +53,7 @@ def get_device_auth_details():
     return {}
 
 device_auth_details = get_device_auth_details().get(email, {})
-fortnite_bot = fortnite_commands.Bot(
+client = fortnite_commands.Bot(
     command_prefix='!',
     description=description,
     auth=fortnitepy.AdvancedAuth(
@@ -74,27 +74,27 @@ bot = commands.Bot(command_prefix=discordPrefix, description="A fortnitepy bot w
 
 async def userByName(name):
     print(name)
-    iD = await fortnite_bot.fetch_user_by_display_name(name)
+    iD = await client.fetch_user_by_display_name(name)
     if iD != None:
         print(iD)
         whatTo = iD.id
         return whatTo
 
 
-@fortnite_bot.event
+@client.event
 async def event_ready():
     print('Fortnite bot ready')
     await bot.start(discord_bot_token)
 
-@fortnite_bot.event
+@client.event
 async def event_device_auth_generate(details, email):
     store_device_auth_details(email, details)
 
-@fortnite_bot.event
+@client.event
 async def event_before_close():
     await bot.close()
 
-@fortnite_bot.event
+@client.event
 async def event_party_invite(invitiation):
     await invitiation.accept()
 
@@ -105,7 +105,7 @@ async def on_ready():
 @bot.command()
 async def test(ctx, arg):
     await ctx.send("Test Command Found")
-    await fortnite_bot.party.send("Test Command Found")
+    await client.party.send("Test Command Found")
 
 @bot.command()
 async def skin(ctx, arg):
@@ -118,10 +118,10 @@ async def skin(ctx, arg):
             name=cont,
             backendType="AthenaCharacter"
         )
-        await fortnite_bot.party.me.set_outfit(asset=cosmetic.id)
+        await client.party.me.set_outfit(asset=cosmetic.id)
         embed=discord.Embed(title="Skin set to " + cosmetic.name)
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-        nameofbot = fortnite_bot.user.display_name
+        nameofbot = client.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
         await ctx.send(embed=embed)
     except:
@@ -137,10 +137,10 @@ async def skinFull(ctx):
         name=cont,
         backendType="AthenaCharacter"
     )
-    await fortnite_bot.party.me.set_outfit(asset=cosmetic.id)
+    await client.party.me.set_outfit(asset=cosmetic.id)
     embed=discord.Embed(title="Skin set to " + cosmetic.name)
     embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-    nameofbot = fortnite_bot.user.display_name
+    nameofbot = client.user.display_name
     embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
     await ctx.send(embed=embed)
 
@@ -155,10 +155,10 @@ async def emote(ctx):
             name=cont,
             backendType="AthenaDance"
         )
-        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        await client.party.me.set_emote(asset=cosmetic.id)
         embed=discord.Embed(title="Emote set to " + cosmetic.name)
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-        nameofbot = fortnite_bot.user.display_name
+        nameofbot = client.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
         await ctx.send(embed=embed)
     except:
@@ -175,10 +175,10 @@ async def emoteFull(ctx):
             name=cont,
             backendType="AthenaDance"
         )
-        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        await client.party.me.set_emote(asset=cosmetic.id)
         embed=discord.Embed(title="Emote set to " + cosmetic.name)
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-        nameofbot = fortnite_bot.user.display_name
+        nameofbot = client.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
         await ctx.send(embed=embed)
     except:
@@ -195,10 +195,10 @@ async def backpack(ctx):
             name=cont,
             backendType="AthenaBackpack"
         )
-        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        await client.party.me.set_emote(asset=cosmetic.id)
         embed=discord.Embed(title="Backpack set to " + cosmetic.name)
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-        nameofbot = fortnite_bot.user.display_name
+        nameofbot = client.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
         await ctx.send(embed=embed)
     except:
@@ -215,10 +215,10 @@ async def backpackFull(ctx):
         name=cont,
         backendType="AthenaBackpack"
     )
-    await fortnite_bot.party.me.set_backpack(asset=cosmetic.id)
+    await client.party.me.set_backpack(asset=cosmetic.id)
     embed=discord.Embed(title="Backpack set to " + cosmetic.name)
     embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-    nameofbot = fortnite_bot.user.display_name
+    nameofbot = client.user.display_name
     embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
     await ctx.send(embed=embed)
     #await ctx.send("Cosmetic couldn't be found!")
@@ -234,10 +234,10 @@ async def pickaxe(ctx):
             name=cont,
             backendType="AthenaPickaxe"
         )
-        await fortnite_bot.party.me.set_emote(asset=cosmetic.id)
+        await client.party.me.set_emote(asset=cosmetic.id)
         embed=discord.Embed(title="Pickaxe set to " + cosmetic.name + "\n Make sure to do (prefix)emote Point It Out \n to see the pickaxe")
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-        nameofbot = fortnite_bot.user.display_name
+        nameofbot = client.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
         embed.set_footer(text="Make sure to do $emote Point It Out to see the pickaxe")
         await ctx.send(embed=embed)
@@ -255,10 +255,10 @@ async def pickaxeFull(ctx):
             name=cont,
             backendType="AthenaPickaxe"
         )
-        await fortnite_bot.party.me.set_pickaxe(asset=cosmetic.id)
+        await client.party.me.set_pickaxe(asset=cosmetic.id)
         embed=discord.Embed(title="Pickaxe set to " + cosmetic.name)
         embed.set_thumbnail(url=imageFortnite(cosmetic.id))
-        nameofbot = fortnite_bot.user.display_name
+        nameofbot = client.user.display_name
         embed.add_field(name="Lobby Bot: " + nameofbot, value="made by oofsamy", inline=False)
         embed.set_footer(text="Make sure to do $emote Point It Out to see the pickaxe")
         await ctx.send(embed=embed)
@@ -269,22 +269,22 @@ async def pickaxeFull(ctx):
 @bot.command()
 async def promote(ctx, arg):
     playerId = await userByName(ctx.message.content[9:])
-    player = fortnite_bot.party.get_member(playerId)
+    player = client.party.get_member(playerId)
     await player.promote()
 
 
 @bot.command()
 async def ready(ctx):
-    if fortnite_bot.is_ready == True:
-        await ctx.send(fortnite_bot.party.me.display_name + " is already ready")
+    if client.is_ready == True:
+        await ctx.send(client.party.me.display_name + " is already ready")
     else:
-        await fortnite_bot.party.me.set_ready(fortnitepy.ReadyState.READY)
+        await client.party.me.set_ready(fortnitepy.ReadyState.READY)
     #fortnitepy.ReadyState
 
 @bot.command()
 async def setStatus(ctx, arg):
     if arg.lower() == "fortnite":
-        await fortnite_bot.set_presence(ctx.message.content[20:])
+        await client.set_presence(ctx.message.content[20:])
         await ctx.send("Status on fortnite is set to " + ctx.message.content[20:])
     elif arg.lower() == "discord":
         game = discord.Game(ctx.message.content[19:])
@@ -293,7 +293,7 @@ async def setStatus(ctx, arg):
     elif arg.lower() == "both":
         await ctx.send("Status on both fortnite and discord are set to "+ctx.message.content[11:])
         game = discord.Game(ctx.message.content[16:])
-        await fortnite_bot.set_presence(ctx.message.content[16:])
+        await client.set_presence(ctx.message.content[16:])
         await bot.change_presence(activity=game)
         await ctx.send("Status on both fortnite and discord are set to "+ctx.message.content[16:])
     else:
@@ -302,7 +302,7 @@ async def setStatus(ctx, arg):
 @bot.command()
 async def addFriend(ctx, arg):
     try:      
-        player = await fortnite_bot.fetch_user_by_display_name(ctx.message.content[11:])
+        player = await client.fetch_user_by_display_name(ctx.message.content[11:])
         await player.add()
     except:
         await ctx.send("Couldn't add friend, try again later!")
@@ -315,8 +315,8 @@ async def leave(ctx):
     sendingString = ""
     playerList = []
     amount = 1
-    for x in fortnite_bot.party.members:
-        if x.display_name == fortnite_bot.party.me.display_name:
+    for x in client.party.members:
+        if x.display_name == client.party.me.display_name:
             print("own bot found")
         else:
             playerList.append(x.display_name)
@@ -326,19 +326,19 @@ async def leave(ctx):
         else:
             amount += 1 
             sendingString = sendingString + x +", "
-    await fortnite_bot.party.me.leave()
+    await client.party.me.leave()
     embed=discord.Embed(title="has left the party containing:", description=sendingString)
-    embed.set_author(name=fortnite_bot.party.me.display_name)
+    embed.set_author(name=client.party.me.display_name)
     await ctx.send(embed=embed)
 
 @bot.command()
 async def copy(ctx):
     print(ctx.message.content[6:])
-    user = fortnite_bot.party.me
-    member = fortnite_bot.party.get_member(await userByName(ctx.message.content[6:])) #6
+    user = client.party.me
+    member = client.party.get_member(await userByName(ctx.message.content[6:])) #6
     if user != None:
         if member.emote == None:
-            await fortnite_bot.party.me.edit_and_keep(
+            await client.party.me.edit_and_keep(
                 partial(
                     fortnitepy.ClientPartyMember.set_outfit,
                     asset=member.outfit,
@@ -356,7 +356,7 @@ async def copy(ctx):
                 )
             )
         else:
-            await fortnite_bot.party.me.edit_and_keep(
+            await client.party.me.edit_and_keep(
                 partial(
                     fortnitepy.ClientPartyMember.set_outfit,
                     asset=member.outfit,
@@ -377,11 +377,12 @@ async def copy(ctx):
                     asset=member.emote
                 )
         )
+        await ctx.send("Cosmetics have been copied from "+member.display_name+" and applied to "+client.party.me.display_name)
 
 @bot.command()
 async def repeat(ctx):
-    partyy = fortnite_bot.party
+    partyy = client.party
     await partyy.send("\n"+ctx.message.content[8:]+"\n-"+ctx.author.display_name)
 
 
-fortnite_bot.run()
+client.run()
