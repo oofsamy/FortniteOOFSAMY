@@ -370,5 +370,10 @@ async def repeat(ctx):
 async def stopEmote(ctx):
     await client.party.me.clear_emote()
 
+@bot.command()
+async def restart(ctx):
+    await client.restart()
+    await ctx.send(client.party.me.display_name + " is now restarting, please wait for it to connect to Fortnite's endpoints")
+
 
 client.run()
