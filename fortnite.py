@@ -295,8 +295,6 @@ async def addFriend(ctx, arg):
 
 @bot.command()
 async def leave(ctx):
-    global playerList
-    global sendingString
     sendingString = ""
     playerList = []
     amount = 1
