@@ -379,5 +379,15 @@ async def restart(ctx):
     await client.restart()
     await ctx.send(client.party.me.display_name + " is now restarting, please wait for it to connect to Fortnite's endpoints")
 
+@bot.command()
+async def arenaHype(ctx, season, *, name):
+    name = urllib.parse.quote(name)
+    url = ("https://fort-api.com/arena/"+name)
+    r = requests.get(url)
+    data = r.text
+    data = json.loads(data)
+    if data[season]:
+        await ctx.send("Division: "+data[season]["division"]+"\nLeague: "+data[season]["league"])
+
 
 client.run()
