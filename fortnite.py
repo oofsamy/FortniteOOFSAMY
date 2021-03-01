@@ -316,7 +316,6 @@ async def leave(ctx):
 
 @bot.command()
 async def copy(ctx):
-    print(ctx.message.content[6:])
     user = client.party.me
     member = client.party.get_member(await userByName(ctx.message.content[6:])) #6
     if user != None:
