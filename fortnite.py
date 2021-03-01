@@ -390,5 +390,9 @@ async def arenaHype(ctx, season, *, name):
     if data[season]:
         await ctx.send("Division: "+data[season]["division"]+"\nLeague: "+data[season]["league"])
 
+@bot.command()
+async def level(ctx, level):
+    await client.party.me.set_banner(season_level=int(level))
+
 
 client.run()
