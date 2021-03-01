@@ -103,13 +103,7 @@ async def on_ready():
     print('Discord bot ready')
 
 @bot.command()
-async def test(ctx, arg):
-    await ctx.send("Test Command Found")
-    await client.party.send("Test Command Found")
-
-@bot.command()
-async def skin(ctx, arg):
-    cont = ctx.message.content[6:len(ctx.message.content)]
+async def skin(ctx, *, cont):
     try: 
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -128,8 +122,7 @@ async def skin(ctx, arg):
         await ctx.send("Cosmetic couldn't be found!")
 
 @bot.command()
-async def skinFull(ctx):
-    cont = ctx.message.content[10:len(ctx.message.content)]
+async def skinFull(ctx, *, cont):
     cosmetic = await BenBotAsync.get_cosmetic(
         lang="en",
         searchLang="en",
@@ -145,8 +138,7 @@ async def skinFull(ctx):
     await ctx.send(embed=embed)
 
 @bot.command()
-async def emote(ctx):
-    cont = ctx.message.content[7:len(ctx.message.content)]
+async def emote(ctx, *, cont):
     try:
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -165,8 +157,7 @@ async def emote(ctx):
         await ctx.send("Cosmetic couldn't be found!")
 
 @bot.command()
-async def emoteFull(ctx):
-    cont = ctx.message.content[11:len(ctx.message.content)]
+async def emoteFull(ctx, *, cont):
     try:
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -185,8 +176,7 @@ async def emoteFull(ctx):
         await ctx.send("Cosmetic couldn't be found!")
 
 @bot.command()
-async def backpack(ctx):
-    cont = ctx.message.content[10:len(ctx.message.content)]
+async def backpack(ctx, *, cont):
     try:
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -205,9 +195,7 @@ async def backpack(ctx):
         await ctx.send("Cosmetic couldn't be found!")
 
 @bot.command()
-async def backpackFull(ctx):
-    cont = ctx.message.content[14:len(ctx.message.content)]
-    print(cont)
+async def backpackFull(ctx, *, cont):
     cosmetic = await BenBotAsync.get_cosmetic(
         lang="en",
         searchLang="en",
@@ -224,8 +212,7 @@ async def backpackFull(ctx):
     #await ctx.send("Cosmetic couldn't be found!")
 
 @bot.command()
-async def pickaxe(ctx):
-    cont = ctx.message.content[9:len(ctx.message.content)]
+async def pickaxe(ctx, *, cont):
     try:
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -245,8 +232,7 @@ async def pickaxe(ctx):
         await ctx.send("Cosmetic couldn't be found!")
 
 @bot.command()
-async def pickaxeFull(ctx):
-    cont = ctx.message.content[13:len(ctx.message.content)]
+async def pickaxeFull(ctx, *, cont):
     try:
         cosmetic = await BenBotAsync.get_cosmetic(
             lang="en",
@@ -267,9 +253,8 @@ async def pickaxeFull(ctx):
 
 
 @bot.command()
-async def promote(ctx, arg):
-    playerId = await userByName(ctx.message.content[9:])
-    player = client.party.get_member(playerId)
+async def promote(ctx, *, name):
+    player = client.party.get_member(name)
     await player.promote()
 
 
@@ -282,20 +267,20 @@ async def ready(ctx):
     #fortnitepy.ReadyState
 
 @bot.command()
-async def setStatus(ctx, arg):
-    if arg.lower() == "fortnite":
-        await client.set_presence(ctx.message.content[20:])
-        await ctx.send("Status on fortnite is set to " + ctx.message.content[20:])
-    elif arg.lower() == "discord":
-        game = discord.Game(ctx.message.content[19:])
+async def setStatus(ctx, platform, *, status):
+    if platform.lower() == "fortnite":
+        await client.set_presence(status)
+        await ctx.send("Status on fortnite is set to " + status)
+    elif platform.lower() == "discord":
+        game = discord.Game(status)
         await bot.change_presence(activity=game)
-        await ctx.send("Status on discord is set to " + ctx.message.content[19:])
-    elif arg.lower() == "both":
-        await ctx.send("Status on both fortnite and discord are set to "+ctx.message.content[11:])
-        game = discord.Game(ctx.message.content[16:])
-        await client.set_presence(ctx.message.content[16:])
+        await ctx.send("Status on discord is set to " + status)
+    elif platform.lower() == "both":
+        await ctx.send("Status on both fortnite and discord are set to "+status)
+        game = discord.Game(status)
+        await client.set_presence(status)
         await bot.change_presence(activity=game)
-        await ctx.send("Status on both fortnite and discord are set to "+ctx.message.content[16:])
+        await ctx.send("Status on both fortnite and discord are set to "+status)
     else:
         await ctx.send("Please specify what platform you want to change the status on \nExample: ``$setStatus fortnite`` \nAvailable parameters are ``fortnite`` ``discord`` ``both``")
 
