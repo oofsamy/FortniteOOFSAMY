@@ -5,6 +5,7 @@ from discord.ext import commands
 import BenBotAsync
 import requests
 import json
+import urllib.parse
 import os
 
 from fortnitepy.ext import commands as fortnite_commands
