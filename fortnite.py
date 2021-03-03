@@ -286,12 +286,27 @@ async def setStatus(ctx, platform, *, status):
         await ctx.send("Please specify what platform you want to change the status on \nExample: ``$setStatus fortnite`` \nAvailable parameters are ``fortnite`` ``discord`` ``both``")
 
 @bot.command()
-async def addFriend(ctx, arg):
-    try:      
-        player = await client.fetch_user_by_display_name(ctx.message.content[11:])
-        await player.add()
-    except:
-        await ctx.send("Couldn't add friend, try again later!")
+async def addFriend(ctx, *,arg):
+    try:
+        player = await client.fetch_user_by_display_name(arg)
+        if player == None:
+            await ctx.send("Player doesn't exist")
+        else:
+            await player.add()
+    except fortnitepy.DuplicateFriendship:
+        await ctx.send(client.party.me.display_name+" is already friends with "+arg)
+    except fortnitepy.FriendshipRequestAlreadySent:
+        await ctx.send("There is already an ongoing friend request to this person")
+    except fortnitepy.MaxFriendshipsExceeded:
+        await ctx.send(client.party.me.display_name+" has hit the max friends on their friends list")
+    except fortnitepy.InviteeMaxFriendshipsExceeded:
+        await ctx.send(arg+" has too many friends on their friends list")
+    except fortnitepy.InviteeMaxFriendshipsExceeded:
+        await ctx.send(arg+" has too many friend requests")
+    except fortnitepy.Forbidden:
+        await ctx.send(arg+" has disabled friend requests")
+    except fortnitepy.HTTPException:
+        await ctx.send("Something went wrong when connecting to the API")
 
 
 @bot.command()
