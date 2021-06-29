@@ -1,9 +1,14 @@
+import fortnitepy
+
+platform = input("Platform to start bot on: WINDOWS, PLAYSTATION, SWITCH, XBOX, MOBILE: ")
+discordPrefix = input("What do you want your Discord bot prefix to be: ")
+
 def checkPlatformCorrect():
-    for x in ["WINDOWS", "PLAYSTATION", "PLAYSTATION", "SWITCH", "XBOX", "MOBILE"]:
-        if platform == x:
-            return fortnitepy.Platform[platform]
-        else:
-            return fortnitepy.Platform.WINDOWS
+    if platform.upper() in ["WINDOWS", "PLAYSTATION", "SWITCH", "XBOX", "MOBILE"]:
+        return fortnitepy.Platform[platform]
+    else:
+        return fortnitepy.Platform.WINDOWS
+
     print(platform + " has been selected on local client")
 
 def checkPrefixCorrect():
